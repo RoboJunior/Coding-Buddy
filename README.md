@@ -74,4 +74,59 @@ graph TD
 ```
 
 ---
-## ⚙️Getting Started
+## ⚙️ Getting Started
+
+Follow these steps to set up and run **CodeBuddy** locally:
+
+### 1. Install Dependencies
+```bash
+poetry install
+```
+
+### 2. Start the MCP Server
+
+Open a dedicated terminal and run:
+
+```bash
+poetry run mcp_server
+```
+
+### 3. Set Your Google API Key
+
+Before running any agent, ensure you export your `GOOGLE_API_KEY` in each terminal session:
+
+```bash
+export GOOGLE_API_KEY="YOUR_GEMINI_API_KEY"
+```
+
+⚠️ **Note:** The free version of Gemini has usage limits, so be mindful of extended chat sessions.
+
+### 4. Run the Agents (Each in a Separate Terminal)
+
+**Error Extractor Agent:**
+
+```bash
+poetry run error_extractor_agent
+```
+
+**StackRedHub Agent:**
+
+```bash
+poetry run stackredhub_agent
+```
+
+**Orchestrator Agent:**
+
+```bash
+poetry run orchestrator_agent
+```
+
+### 5. Start CodeBuddy CLI
+
+After all agents and the MCP server are running, open a new terminal and launch the CodeBuddy CLI:
+
+```bash
+poetry run coding_buddy
+```
+
+Now you're ready to enjoy chatting with CodeBuddy and debugging seamlessly!
