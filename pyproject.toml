@@ -1,0 +1,30 @@
+[project]
+name = "app"
+version = "0.1.0"
+description = "A coding buddy to help u along when coding"
+authors = [
+    {name = "Jeyaramanjr",email = "jeyaraman.r@bootlabstech.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+dependencies = [
+    "python-a2a (>=0.5.9,<0.6.0)",
+    "google-adk (>=1.13.0,<2.0.0)",
+    "fastmcp (>=2.12.2,<3.0.0)",
+    "opik (>=1.8.42,<2.0.0)",
+    "rich (>=14.1.0,<15.0.0)",
+    "rich-chat-room (>=0.1.0,<0.2.0)",
+    "textual (>=6.1.0,<7.0.0)",
+    "mss (>=10.1.0,<11.0.0)",
+]
+
+[tool.poetry.scripts]
+mcp_server = "app.tools.tool_server:start_mcp_server"
+error_extractor_agent = "app.agent.error_extractor.server:start_error_extractor_agent"
+stackredhub_agent = "app.agent.stackredhub.server:start_stackredhub_agent"
+orchestrator_agent = "app.agent.orchestrator.server:start_orchestrator_agent"
+coding_buddy = "app.client.agent_client:start_coding_buddy"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
