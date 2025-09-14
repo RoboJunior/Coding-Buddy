@@ -22,8 +22,15 @@ It also integrates with a dedicated **MCP server** for tool access and **Opik** 
 ```mermaid
 flowchart TD
     A[CodeBuddy] --> B[Orchestrator Agent]
-    B --> C[ErrorExtractor Agent]
-    B --> D[StackRedHub Agent]
+    A --> C[ErrorExtractor Agent]
+    A --> D[StackRedHub Agent]
+
     B --> E[MCP Server]
-    E --> F[Tools & APIs]
-    B --> G[Opik Observability]
+    C --> E
+    D --> E
+
+    B --> F[Opik Observability]
+    C --> F
+    D --> F
+
+    E --> G[Tools & APIs]
