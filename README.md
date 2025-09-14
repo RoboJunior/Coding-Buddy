@@ -21,22 +21,58 @@ It also integrates with a dedicated **MCP server** for tool access and **Opik** 
 
 ```mermaid
 graph TD
-    subgraph CodeBuddy
-        B[Orchestrator Agent]
-        C[ErrorExtractor Agent]
-        D[StackRedHub Agent]
+    A[Users] --> B{Load Balancer}
+
+    subgraph Orchestrator Agent
+        OAD[Deployment]
+        OAC[ConfigMap]
+        OAS[Secret]
+        OAP[Cluster IP]
+        OAD --- OAC
+        OAD --- OAS
     end
 
-    %% Place MCP Server and Opik side by side
-    E[MCP Server] --- F[Opik Observability]
+    subgraph Error Tracer Agent
+        ETAD[Deployment]
+        ETAC[ConfigMap]
+        ETAS[Secret]
+        ETAP[Cluster IP]
+        ETAD --- ETAC
+        ETAD --- ETAS
+    end
 
-    %% Agent connections (parallel, no crossing)
-    B -- Connects To --> E
-    B -- Connects To --> F
-    C -- Connects To --> E
-    C -- Connects To --> F
-    D -- Connects To --> E
-    D -- Connects To --> F
+    subgraph Stackredhub Agent
+        SRHAD[Deployment]
+        SRHAC[ConfigMap]
+        SRHAS[Secret]
+        SRHAP[Cluster IP]
+        SRHAD --- SRHAC
+        SRHAD --- SRHAS
+    end
 
-    %% MCP Server connects to Tools
-    E -- Utilizes --> G[Tools & APIs]
+    subgraph Mcp Server
+        MSD[Deployment]
+        MSC[ConfigMap]
+        MSS[Secret]
+        MSP[Cluster IP]
+        MSD --- MSC
+        MSD --- MSS
+    end
+
+    Opik(Opik)
+
+    B --> OAP
+    OAP --> ETAP
+    OAP --> SRHAP
+
+    ETAP --> MSP
+    SRHAP --> MSP
+
+    MSP --> Opik
+    OAP --> Opik
+    SRHAP --> Opik
+
+    style Orchestrator Agent fill:#e0f2f7,stroke:#333,stroke-width:2px,color:#000
+    style Error Tracer Agent fill:#e0f2f7,stroke:#333,stroke-width:2px,color:#000
+    style Stackredhub Agent fill:#e6ffed,stroke:#333,stroke-width:2px,color:#000
+    style Mcp Server fill:#f0f0f0,stroke:#333,stroke-width:2px,color:#000
