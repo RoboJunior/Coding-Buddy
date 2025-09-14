@@ -65,7 +65,7 @@ async def error_extractor(image_path: str):
             )
         )
     client = genai.Client(
-        api_key="AIzaSyDFhd-ySYlJeIWcEshngSamjGyMzJrD1O4",
+        api_key=os.environ.get('GOOGLE_API_KEY')
     )
     model = "gemini-2.5-flash"
     generate_content_config = types.GenerateContentConfig(
