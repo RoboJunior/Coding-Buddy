@@ -27,15 +27,16 @@ flowchart LR
         D[StackRedHub Agent]
     end
 
-    %% MCP Server
-    B --> E[MCP Server]
-    C --> E
-    D --> E
+    %% Place MCP Server and Opik side by side
+    E[MCP Server] --- F[Opik Observability]
 
-    %% Opik
-    B --> F[Opik Observability]
+    %% Agent connections (parallel, no crossing)
+    B --> E
+    B --> F
+    C --> E
     C --> F
+    D --> E
     D --> F
 
-    %% MCP Server to Tools/APIs
+    %% MCP Server connects to Tools
     E --> G[Tools & APIs]
