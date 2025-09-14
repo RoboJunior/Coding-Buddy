@@ -20,21 +20,47 @@ It also integrates with a dedicated **MCP server** for tool access and **Opik** 
 ## 🏗️ Architecture
 
 ```mermaid
-flowchart TD
-    A[CodeBuddy] --> B[Orchestrator Agent]
-    A --> C[ErrorExtractor Agent]
-    A --> D[StackRedHub Agent]
+flowchart LR
+  %% Placement & main flow
+  U[Users] --> LB[Load Balancer]
+  LB --> ORC[Orchestrator Agent<br/>(Deployment · Secret · ConfigMap)]
 
-    %% MCP Server connections
-    B --> E[MCP Server]
-    C --> E
-    D --> E
+  subgraph AGENTS[Agents Layer]
+    direction TB
+    ERR[Error Tracer Agent<br/>(Deployment · Secret · ConfigMap)]
+    SRH[StackRedHub Agent<br/>(Deployment · Secret · ConfigMap)]
+  end
 
-    %% Opik connections
-    B --> F[Opik Observability]
-    C --> F
-    D --> F
+  %% Core broker / server
+  MCP[MCP Server<br/>(Deployment · Secret · ConfigMap)]
 
-    %% MCP Server to external tools
-    E --> G[Tools & APIs]
+  %% External tools
+  TOOLS[Tools & APIs]
+
+  %% Main solid flows (control/data)
+  ORC -->|Cluster IP →| ERR
+  ORC -->|Cluster IP →| SRH
+  ORC -->|register / send events →| MCP
+
+  ERR -->|submit errors →| MCP
+  SRH -->|push stacks →| MCP
+  MCP -->|call / proxy →| TOOLS
+
+  %% Observability (dashed = monitoring/telemetry)
+  subgraph OPIK[Opik Observability]
+    OP[Opik]
+  end
+
+  ORC -.->|metrics / traces| OP
+  ERR -.->|error events| OP
+  SRH -.->|logs / alerts| OP
+  MCP -.->|server telemetry| OP
+
+  %% Optional arrows (match your diagram: agents also feed Opik and MCP)
+  ORC -->|(also) push telemetry →| OP
+  ERR -->|(also) API →| TOOLS
+
+  %% Legend
+  classDef dashed stroke-dasharray: 5 5;
+  style OP stroke:#333,stroke-dasharray: 5 5
 
