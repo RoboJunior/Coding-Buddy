@@ -71,8 +71,3 @@ graph TD
     MSP --> Opik
     OAP --> Opik
     SRHAP --> Opik
-
-    style Orchestrator Agent fill:#e0f2f7,stroke:#333,stroke-width:2px,color:#000
-    style Error Tracer Agent fill:#e0f2f7,stroke:#333,stroke-width:2px,color:#000
-    style Stackredhub Agent fill:#e6ffed,stroke:#333,stroke-width:2px,color:#000
-    style Mcp Server fill:#f0f0f0,stroke:#333,stroke-width:2px,color:#000
