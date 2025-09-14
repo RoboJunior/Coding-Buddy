@@ -20,7 +20,7 @@ It also integrates with a dedicated **MCP server** for tool access and **Opik** 
 ## 🏗️ Architecture
 
 ```mermaid
-flowchart LR
+graph TD
     subgraph CodeBuddy
         B[Orchestrator Agent]
         C[ErrorExtractor Agent]
@@ -31,12 +31,12 @@ flowchart LR
     E[MCP Server] --- F[Opik Observability]
 
     %% Agent connections (parallel, no crossing)
-    B --> E
-    B --> F
-    C --> E
-    C --> F
-    D --> E
-    D --> F
+    B -- Connects To --> E
+    B -- Connects To --> F
+    C -- Connects To --> E
+    C -- Connects To --> F
+    D -- Connects To --> E
+    D -- Connects To --> F
 
     %% MCP Server connects to Tools
-    E --> G[Tools & APIs]
+    E -- Utilizes --> G[Tools & APIs]
